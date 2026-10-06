@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}InstituteHub{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+</head>
+<body>
+    <nav class="topbar">
+        <div class="brand-wrap">
+            <div class="brand">InstituteHub</div>
+            {% if user.is_authenticated %}
+                <span class="role-badge {% if user.is_admin_user %}role-admin{% else %}role-student{% endif %}">{{ user.get_role_display }}</span>
+            {% endif %}
+        </div>
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard_redirect' %}">Dashboard</a>
+                {% if user.is_admin_user %}
+                    <a href="{% url 'student_list' %}">Students</a>
+                    <a href="{% url 'batch_list' %}">Batches</a>
+                    <a href="{% url 'hr_list' %}">HR Directory</a>
+                    <a href="{% url 'interview_list' %}">Interviews</a>
+                {% else %}
+                    {% if user.student_profile %}
+                        <a href="{% url 'student_detail' pk=user.student_profile.pk %}">My Profile</a>
+                    {% else %}
+                        <a href="{% url 'student_create' %}">Create Profile</a>
+                    {% endif %}
+                    <a href="{% url 'interview_list' %}">My Interviews</a>
+                {% endif %}
+                <a href="{% url 'profile_view' %}">Profile</a>
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-ghost">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}" class="btn btn-ghost">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main class="container page-shell">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-success">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

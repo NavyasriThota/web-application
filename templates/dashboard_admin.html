@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard | InstituteHub{% endblock %}
+
+{% block content %}
+<div class="section-title">
+    <h2>Admin Dashboard</h2>
+    <div class="inline-list">
+        <a href="{% url 'student_create' %}" class="btn btn-primary">Add Student</a>
+        <a href="{% url 'batch_create' %}" class="btn btn-secondary">Create Batch</a>
+        <a href="{% url 'hr_create' %}" class="btn btn-secondary">Add HR</a>
+        <a href="{% url 'interview_create' %}" class="btn btn-secondary">Add Interview</a>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="metric">
+        <small>Students</small>
+        <strong>{{ student_count }}</strong>
+    </div>
+    <div class="metric">
+        <small>Batches</small>
+        <strong>{{ batch_count }}</strong>
+    </div>
+    <div class="metric">
+        <small>Interviews</small>
+        <strong>{{ interview_count }}</strong>
+    </div>
+    <div class="metric">
+        <small>HR Partners</small>
+        <strong>{{ hrs.count }}</strong>
+    </div>
+</div>
+
+<div class="section-title">
+    <h3>Students</h3>
+    <a href="{% url 'student_list' %}" class="linkish">View all</a>
+</div>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Age</th>
+                <th>Batch</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for student in students %}
+            <tr>
+                <td><a href="{% url 'student_detail' student.pk %}" class="linkish">{{ student.user.get_full_name|default:student.user.username }}</a></td>
+                <td>{{ student.age }}</td>
+                <td>{{ student.batch.name|default:'Not assigned' }}</td>
+                <td>{{ student.user.email }}</td>
+                <td>
+                    <a href="{% url 'student_update' student.pk %}" class="linkish">Edit</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No student records yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="section-title">
+    <h3>Latest Interview Activity</h3>
+</div>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Student</th>
+                <th>Company</th>
+                <th>Role</th>
+                <th>HR</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for interview in interviews %}
+            <tr>
+                <td><a href="{% url 'interview_detail' interview.pk %}" class="linkish">{{ interview.student.user.get_full_name|default:interview.student.user.username }}</a></td>
+                <td>{{ interview.company_name }}</td>
+                <td>{{ interview.role }}</td>
+                <td><a href="{% url 'hr_detail' interview.hr.pk %}" class="linkish">{{ interview.hr.name }}</a></td>
+                <td><span class="badge badge-{{ interview.result }}">{{ interview.result|title }}</span></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No interviews scheduled yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

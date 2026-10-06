@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Profile | InstituteHub{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <div class="section-title">
+        <h2>My Profile</h2>
+        {% if user.is_admin_user %}
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+        {% else %}
+            <a href="{% url 'student_update' user.student_profile.pk %}" class="btn btn-primary">Edit Details</a>
+        {% endif %}
+    </div>
+
+    <div class="form-grid">
+        <div><strong>Full Name:</strong> {{ user.get_full_name|default:user.username }}</div>
+        <div><strong>Email:</strong> {{ user.email }}</div>
+        <div><strong>Role:</strong> {{ user.role|title }}</div>
+        <div><strong>Phone:</strong> {{ user.phone }}</div>
+    </div>
+
+    {% if profile %}
+        <hr />
+        <div class="form-grid">
+            <div><strong>Age:</strong> {{ profile.age }}</div>
+            <div><strong>Education:</strong> {{ profile.education }}</div>
+            <div><strong>Experience:</strong> {{ profile.experience }}</div>
+            <div><strong>Joining Date:</strong> {{ profile.joining_date }}</div>
+            <div><strong>Batch:</strong> {{ profile.batch.name|default:'Not assigned' }}</div>
+        </div>
+        <p><strong>Skills:</strong> {{ profile.skills }}</p>
+    {% endif %}
+</div>
+{% endblock %}

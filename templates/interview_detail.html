@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Interview Detail | InstituteHub{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <div class="section-title">
+        <h2>{{ interview.company_name }} - {{ interview.role }}</h2>
+        {% if user.is_admin_user %}
+            <div class="inline-list">
+                <a href="{% url 'interview_update' interview.pk %}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'interview_delete' interview.pk %}" class="btn btn-danger" onclick="return confirm('Delete this interview?')">Delete</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-grid">
+        <div><strong>Student:</strong> <a href="{% url 'student_detail' interview.student.pk %}" class="linkish">{{ interview.student.user.get_full_name|default:interview.student.user.username }}</a></div>
+        <div><strong>Interview Date:</strong> {{ interview.date_time }}</div>
+        <div><strong>Company:</strong> {{ interview.company_name }}</div>
+        <div><strong>Role:</strong> {{ interview.role }}</div>
+        <div><strong>Result:</strong> <span class="badge badge-{{ interview.result }}">{{ interview.result|title }}</span></div>
+        <div><strong>Final Result:</strong> <span class="badge badge-{{ interview.final_result }}">{{ interview.final_result|title }}</span></div>
+        <div><strong>HR:</strong> <a href="{% url 'hr_detail' interview.hr.pk %}" class="linkish">{{ interview.hr_name }}</a></div>
+        <div><strong>HR Contact:</strong> {{ interview.hr_contact_number }}</div>
+        <div><strong>HR Email:</strong> {{ interview.hr_email }}</div>
+        <div><strong>Job Link:</strong> <a href="{{ interview.job_link }}" target="_blank" class="linkish">Open Link</a></div>
+    </div>
+
+    <p><strong>Interview Rounds:</strong> {{ interview.rounds|join:', ' }}</p>
+    <p><strong>Notes:</strong> {{ interview.notes|default:'No notes provided.' }}</p>
+</div>
+{% endblock %}

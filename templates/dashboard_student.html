@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Dashboard | InstituteHub{% endblock %}
+
+{% block content %}
+<div class="section-title">
+    <h2>Student Dashboard</h2>
+    <a href="{% url 'student_update' profile.pk %}" class="btn btn-primary">Edit Profile</a>
+</div>
+
+<div class="panel">
+    <div class="section-title">
+        <h3>{{ profile.user.get_full_name|default:profile.user.username }}</h3>
+        <span class="badge badge-pending">{{ profile.batch.name|default:'Unassigned batch' }}</span>
+    </div>
+    <div class="metrics-grid">
+        <div class="metric"><small>Age</small><strong>{{ profile.age }}</strong></div>
+        <div class="metric"><small>Education</small><strong>{{ profile.education }}</strong></div>
+        <div class="metric"><small>Experience</small><strong>{{ profile.experience|default:'Fresh' }}</strong></div>
+        <div class="metric"><small>Joining Date</small><strong>{{ profile.joining_date }}</strong></div>
+    </div>
+    <p><strong>Skills:</strong> {{ profile.skills }}</p>
+    <p><strong>Email:</strong> {{ profile.user.email }} | <strong>Phone:</strong> {{ profile.user.phone }}</p>
+</div>
+
+<div class="section-title">
+    <h3>Interview Status</h3>
+</div>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Company</th>
+                <th>Role</th>
+                <th>Date</th>
+                <th>HR</th>
+                <th>Result</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for interview in interviews %}
+            <tr>
+                <td><a href="{% url 'interview_detail' interview.pk %}" class="linkish">{{ interview.company_name }}</a></td>
+                <td>{{ interview.role }}</td>
+                <td>{{ interview.date_time }}</td>
+                <td><a href="{% url 'hr_detail' interview.hr.pk %}" class="linkish">{{ interview.hr.name }}</a></td>
+                <td><span class="badge badge-{{ interview.result }}">{{ interview.result|title }}</span></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No interview records are available for you yet.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,10 @@
+{
+  "python.defaultInterpreterPath": "c:/Users/Navya Sri/Documents/TTT/Project_interview/.venv/Scripts/python.exe",
+  "python.terminal.activateEnvironment": true,
+  "python.analysis.extraPaths": [
+    "c:/Users/Navya Sri/Documents/TTT/Project_interview"
+  ],
+  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.django": true,
+  "python.analysis.autoImportCompletions": true
+}

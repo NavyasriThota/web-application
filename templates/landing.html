@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}InstituteHub | Academy Management{% endblock %}
+
+{% block content %}
+<div class="hero">
+    <div class="hero-copy">
+        <h1>Manage students, interviews, and HR pipelines in one place.</h1>
+        <p>
+            InstituteHub helps training institutes manage application batches, student records,
+            interview outcomes, and recruiter relationships with a clean, role-aware dashboard.
+        </p>
+        <div class="hero-actions">
+            <a href="{% url 'login' %}" class="btn btn-primary">Login to Dashboard</a>
+            <a href="#features" class="btn btn-secondary">Explore Features</a>
+        </div>
+    </div>
+
+    <div class="hero-panel card">
+        <h3>Live Overview</h3>
+        <div class="stats-grid">
+            <div class="metric">
+                <small>Students</small>
+                <strong>120+</strong>
+            </div>
+            <div class="metric">
+                <small>Batches</small>
+                <strong>8</strong>
+            </div>
+            <div class="metric">
+                <small>HR Partners</small>
+                <strong>36</strong>
+            </div>
+            <div class="metric">
+                <small>Interview Success</small>
+                <strong>72%</strong>
+            </div>
+        </div>
+        <p style="margin-top: 1rem; color: rgba(255,255,255,0.82);">
+            Personalized dashboards for trainers and students, with secure access control and a full interview lifecycle.
+        </p>
+    </div>
+</div>
+
+<div id="features" class="section-title">
+    <h3>Platform Highlights</h3>
+</div>
+<div class="metrics-grid">
+    <div class="metric">
+        <small>Admin Controls</small>
+        <strong>Full CRUD</strong>
+    </div>
+    <div class="metric">
+        <small>Student Access</small>
+        <strong>Self-serve</strong>
+    </div>
+    <div class="metric">
+        <small>Interview Tracking</small>
+        <strong>Live status</strong>
+    </div>
+    <div class="metric">
+        <small>HR Directory</small>
+        <strong>Company mapping</strong>
+    </div>
+</div>
+{% endblock %}

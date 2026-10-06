@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Student Detail | InstituteHub{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <div class="section-title">
+        <h2>{{ profile.user.get_full_name|default:profile.user.username }}</h2>
+        {% if user.is_admin_user %}
+            <div class="inline-list">
+                <a href="{% url 'student_update' profile.pk %}" class="btn btn-primary">Edit</a>
+                <a href="{% url 'student_delete' profile.pk %}" class="btn btn-danger" onclick="return confirm('Delete this student profile?')">Delete</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="form-grid">
+        <div><strong>Email:</strong> {{ profile.user.email }}</div>
+        <div><strong>Phone:</strong> {{ profile.user.phone }}</div>
+        <div><strong>Age:</strong> {{ profile.age }}</div>
+        <div><strong>Education:</strong> {{ profile.education }}</div>
+        <div><strong>Experience:</strong> {{ profile.experience }}</div>
+        <div><strong>Joining Date:</strong> {{ profile.joining_date }}</div>
+        <div><strong>Batch:</strong> {{ profile.batch.name|default:'Not assigned' }}</div>
+    </div>
+    <p><strong>Skills:</strong> {{ profile.skills }}</p>
+</div>
+{% endblock %}

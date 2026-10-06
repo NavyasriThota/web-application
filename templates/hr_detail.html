@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ hr.name }} | InstituteHub{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <div class="section-title">
+        <h2>{{ hr.name }}</h2>
+        <div class="inline-list">
+            <a href="{% url 'hr_update' hr.pk %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'hr_delete' hr.pk %}" class="btn btn-danger" onclick="return confirm('Delete this HR?')">Delete</a>
+        </div>
+    </div>
+    <div class="form-grid">
+        <div><strong>Company:</strong> {{ hr.company }}</div>
+        <div><strong>Contact:</strong> {{ hr.contact_number }}</div>
+        <div><strong>Email:</strong> {{ hr.email }}</div>
+    </div>
+    <p><strong>Notes:</strong> {{ hr.notes|default:'No additional notes.' }}</p>
+
+    <div class="section-title">
+        <h3>Interviews managed by this HR</h3>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Company</th>
+                <th>Role</th>
+                <th>Result</th>
+            </tr>
+            {% for interview in hr.interviews.all %}
+            <tr>
+                <td><a href="{% url 'student_detail' interview.student.pk %}" class="linkish">{{ interview.student.user.get_full_name|default:interview.student.user.username }}</a></td>
+                <td>{{ interview.company_name }}</td>
+                <td>{{ interview.role }}</td>
+                <td><span class="badge badge-{{ interview.result }}">{{ interview.result|title }}</span></td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="4">No interviews linked to this HR yet.</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

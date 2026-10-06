@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ batch.name }} | InstituteHub{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <div class="section-title">
+        <h2>{{ batch.name }}</h2>
+        <div class="inline-list">
+            <a href="{% url 'batch_update' batch.pk %}" class="btn btn-primary">Edit</a>
+            <a href="{% url 'batch_delete' batch.pk %}" class="btn btn-danger" onclick="return confirm('Delete this batch?')">Delete</a>
+        </div>
+    </div>
+    <div class="form-grid">
+        <div><strong>Start Date:</strong> {{ batch.start_date }}</div>
+        <div><strong>End Date:</strong> {{ batch.end_date }}</div>
+        <div><strong>Capacity:</strong> {{ batch.capacity }}</div>
+        <div><strong>Current Students:</strong> {{ batch.student_count }}</div>
+    </div>
+    <p><strong>Description:</strong> {{ batch.description|default:'No description' }}</p>
+
+    <div class="section-title">
+        <h3>Students in batch</h3>
+    </div>
+    <div class="table-wrap">
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Skills</th>
+            </tr>
+            {% for student in batch.students.all %}
+            <tr>
+                <td><a href="{% url 'student_detail' student.pk %}" class="linkish">{{ student.user.get_full_name|default:student.user.username }}</a></td>
+                <td>{{ student.user.email }}</td>
+                <td>{{ student.skills }}</td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="3">No students assigned to this batch.</td></tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

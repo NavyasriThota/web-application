@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}HR Directory | InstituteHub{% endblock %}
+
+{% block content %}
+<div class="section-title">
+    <h2>HR Directory</h2>
+    <a href="{% url 'hr_create' %}" class="btn btn-primary">Add HR</a>
+</div>
+<div class="table-wrap">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Company</th>
+                <th>Contact</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for hr in hrs %}
+            <tr>
+                <td><a href="{% url 'hr_detail' hr.pk %}" class="linkish">{{ hr.name }}</a></td>
+                <td>{{ hr.company }}</td>
+                <td>{{ hr.contact_number }}</td>
+                <td>{{ hr.email }}</td>
+                <td>
+                    <a href="{% url 'hr_update' hr.pk %}" class="linkish">Edit</a> |
+                    <a href="{% url 'hr_delete' hr.pk %}" class="linkish" onclick="return confirm('Delete this HR profile?')">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="5">No HR profiles added.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
